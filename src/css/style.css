@@ -1,0 +1,70 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.bouton-bleu{
+    color: white;
+    background: #0069d9;
+    border-color: #0062cc;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.bouton-bleu:active{
+    color: red;
+}
+
+.logo{
+    float: left;
+    width: 70px;
+}
+
+.nav{
+    background: black;
+    height: 70px;
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.nav a{
+    color: white;
+    text-decoration: none;
+    font-size: 20px;
+    line-height: 70px;
+    padding: 0 20px;
+    float: left;
+}
+
+.nav a:active{
+    color: red;
+    transition: 4ms;
+}
+
+.container{
+    margin-top: 10%;
+    text-align: center;
+    width: 850px;
+    border-radius: 10px;
+    padding: 30px;
+    background-color: black;
+    color: white;
+    font-size: 18px;
+}
+
+.container input{
+    text-align: center;
+    font-size: 15px;
+}
+
+.container div{
+    padding: 4px;
+}
+
+.copyright{
+    text-align: center;
+    margin-top: 20px;
+}
