@@ -24,4 +24,27 @@ function recuperation_join($base,$table,$table2,$table_join1,$table_join2,$param
     return $resultat;
 }
 
+// Exemple d'utilisation des fonctions :
+
+$bdd = connexionPDO();
+
+// Récupération de tous les utilisateurs
+$utilisateurs = recuperation($bdd, "*", "Utilisateurs");
+
+// Récupération d'un utilisateur en particulier avec son ID
+$id_utilisateur = 1;
+$utilisateur = recuperation_join($bdd, "Utilisateurs", "Commandes", "id_utilisateur", "id_utilisateur", "Utilisateurs.id_utilisateur", $id_utilisateur);
+
+// Récupération de tous les produits
+$produits = recuperation($bdd, "*", "Produits");
+
+// Récupération de toutes les commandes pour un utilisateur en particulier avec son ID
+$id_utilisateur = 1;
+$commandes = recuperation_join($bdd, "Commandes", "Utilisateurs", "id_utilisateur", "id_utilisateur", "Commandes.id_utilisateur", $id_utilisateur);
+
+// Récupération de tous les détails de commande pour une commande en particulier avec son ID
+$id_commande = 1;
+$details_commande = recuperation_join($bdd, "Details_Commande", "Produits", "id_produit", "id_produit", "Details_Commande.id_commande", $id_commande);
+
+
 ?>

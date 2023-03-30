@@ -5,7 +5,7 @@
 
     <?php
     // Informations de connexion à la base de données
-    $servername = "Mariadb";
+    $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "boutique";
