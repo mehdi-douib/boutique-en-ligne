@@ -1,3 +1,9 @@
+<?php
+    session_start();
+    require 'php/include/connexion.php';
+    ?>
+
+
 <!doctype html>
 <html lang="fr">
 <head>

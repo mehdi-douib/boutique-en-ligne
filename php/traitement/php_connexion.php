@@ -1,8 +1,5 @@
 <?php
     require 'php/class/class_user.php';
-?>
-
-    <?php
      session_start();
      ?>
 

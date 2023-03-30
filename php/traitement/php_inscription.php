@@ -1,8 +1,7 @@
-<?php    
-    include 'php/class/class_user.php';
-
-    session_start();
-
+<?php
+    require 'php/class/class_user.php';
+     session_start();
+     ?>
     <?php
     // Informations de connexion à la base de données
     $servername = "localhost";
