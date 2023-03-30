@@ -1,23 +1,31 @@
 <?php
     require 'php/class/class_user.php';
-
-    session_start();       
-
-    $user = new user('boutique');
-    
-
-    if(isset($_SESSION["user"]))
-        {
-            header("Location:index.php");
-        }
-    else
-        {                         
-            if(isset($_POST["valid_co"], $_POST["login"], $_POST["password"]) && !empty($_POST["login"]) && !empty($_POST["password"]))
-                {                              
-                    $login = $_POST["login"];
-                    $password = $_POST["password"];
-
-                    $user->connect($login, $password);                                        
-                }
-        }
 ?>
+
+    <?php
+     session_start();
+     ?>
+
+    <?php
+    // Connexion à la base de données
+    $host = 'localhost';
+    $dbname = 'boutique';
+    $user = 'root';
+    $password = '';
+    
+    try {
+        $pdo = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8", $user, $password);
+        $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    } catch (PDOException $e) {
+        die("Erreur de connexion : " . $e->getMessage());
+    }
+    
+    // Requête d'exemple pour récupérer tous les utilisateurs
+    $sql = "SELECT * FROM Utilisateurs";
+    $stmt = $pdo->query($sql);
+    $utilisateurs = $stmt->fetchAll(PDO::FETCH_ASSOC);
+    
+    // Fermeture de la connexion
+    $pdo = null;
+    ?>
+    
