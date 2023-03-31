@@ -2,11 +2,7 @@
 
 session_start();
 
-// Configuration de la connexion à la base de données
-$host = 'localhost';
-$dbname = 'boutique';
-$user = 'root';
-$pass = '';
+include '/traitement/config.php';
 
 // Connexion à la base de données avec PDO
 try {
