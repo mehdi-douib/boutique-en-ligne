@@ -1,57 +1,58 @@
 <?php
-    require 'php/class/class_user.php';
-     session_start();
-     ?>
-    <?php
-    // Informations de connexion à la base de données
-    $servername = "localhost";
-    $username = "root";
-    $password = "";
-    $dbname = "boutique";
-    
-    // Connexion à la base de données
-    try {
-        $conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
-        // Définition du mode d'erreur PDO à l'exception
-        $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-        echo "Connexion réussie à la base de données";
-    } catch(PDOException $e) {
-        echo "Erreur de connexion à la base de données: " . $e->getMessage();
+
+session_start();
+
+// Informations de connexion à la base de données
+$host = "localhost";
+$dbname = "boutique";
+$user = "root";
+$password = "";
+
+// Connexion à la base de données avec PDO
+try {
+    $pdo = new PDO("mysql:host=$host;dbname=$dbname", $user, $password);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+} catch (PDOException $e) {
+    echo "Erreur de connexion à la base de données : " . $e->getMessage();
+    exit;
+}
+
+// Traitement du formulaire d'inscription
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $login = $_POST["login"];
+    $email = $_POST["email"];
+    $livraison = $_POST["livraison"];
+    $facturation = $_POST["Facturation"];
+    $password = $_POST["password"];
+    $confirmpassword = $_POST["confirmpassword"];
+
+    // Vérification des champs obligatoires
+    if ($login == "" || $email == "" || $livraison == "" || $facturation == "" || $password == "" || $confirmpassword == "") {
+        echo "Veuillez remplir tous les champs.";
+        exit;
     }
-    
-    // Récupération des données du formulaire
-    $login = $_POST['login'];
-    $email = $_POST['email'];
-    $livraison = $_POST['livraison'];
-    $facturation = $_POST['Facturation'];
-    $password = $_POST['password'];
-    $confirmpassword = $_POST['confirmpassword'];
-    
-    // Vérification si les mots de passe sont identiques
+
+    // Vérification de la correspondance des mots de passe
     if ($password != $confirmpassword) {
-        echo "Les mots de passe ne correspondent pas";
-    } else {
-        // Hashage du mot de passe pour plus de sécurité
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-    
-        // Préparation de la requête SQL avec une requête préparée
-        $stmt = $conn->prepare("INSERT INTO Utilisateurs (nom_utilisateur, mot_de_passe, email_utilisateur, adresse_livraison, adresse_facturation) VALUES (:nom_utilisateur, :mot_de_passe, :email_utilisateur, :adresse_livraison, :adresse_facturation)");
-        $stmt->bindParam(':nom_utilisateur', $login);
-        $stmt->bindParam(':mot_de_passe', $hashed_password);
-        $stmt->bindParam(':email_utilisateur', $email);
-        $stmt->bindParam(':adresse_livraison', $livraison);
-        $stmt->bindParam(':adresse_facturation', $facturation);
-    
-        // Exécution de la requête
-        try {
-            $stmt->execute();
-            echo "Inscription réussie";
-        } catch(PDOException $e) {
-            echo "Erreur d'inscription: " . $e->getMessage();
-        }
+        echo "Les mots de passe ne correspondent pas.";
+        exit;
     }
-    
-    // Fermeture de la connexion à la base de données
-    $conn = null;
-    ?>
-    
+
+    // Vérification de l'existence du login dans la base de données
+    $stmt = $pdo->prepare("SELECT COUNT(*) FROM utilisateurs WHERE login = ?");
+    $stmt->execute([$login]);
+    $count = $stmt->fetchColumn();
+    if ($count > 0) {
+        echo "Ce login est déjà utilisé.";
+        exit;
+    }
+
+    // Insertion de l'utilisateur dans la base de données
+    $stmt = $pdo->prepare("INSERT INTO utilisateurs (login, email, livraison, facturation, password) VALUES (?, ?, ?, ?, ?)");
+    $stmt->execute([$login, $email, $livraison, $facturation, $password]);
+
+    // Redirection vers une page de confirmation
+    header("Location: confirmation.php");
+    exit;
+}
+?>

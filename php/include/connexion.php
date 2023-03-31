@@ -1,5 +1,5 @@
 <?php
-require '/php/fonctions/fonctions.php';
+require './php/fonctions/fonctions.php';
 $pdo = connexionPDO();
 
 // Requête pour récupérer tous les utilisateurs

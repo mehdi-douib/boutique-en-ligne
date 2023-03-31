@@ -1,8 +1,3 @@
-<?php 
-    include 'php/traitement/php_connexion.php'; 
-    require 'php/include/connexion.php';  
-     
-?>
 <!doctype html>
 <html lang="fr">
 <head>
@@ -19,6 +14,9 @@
 <center>
 <form id="login-form" class="container" method="post">
     <h2>Connexion</h2><br>
+    <?php if (isset($errorMessage)): ?>
+        <div class="error"><?php echo $errorMessage; ?></div>
+    <?php endif; ?>
     <div>
         <label for="email">Adresse email:</label>
         <input type="email" id="email" name="email" placeholder="Entre ton email" required>
@@ -31,7 +29,6 @@
         <button class="bouton-bleu" type="submit">Se connecter</button>
     </div>
 </form>
-<div id="error-message"></div>
 </center>
 </body>
 
